@@ -14,15 +14,15 @@ on:
     Build:
       runs-on: ubuntu-lastest
     steps:
-      -name: What triggered the workflow
+      - name: What triggered the workflow
         run: |
           echo "The job was triggered by event: ${{ github.event_name }}"
           echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
-      -name: Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4.2.2
     
-      -name: List Files in Repository
+      - name: List Files in Repository
         run: |
           echo "The repository ${{ github.repository }} contains the following files:"
           tree
