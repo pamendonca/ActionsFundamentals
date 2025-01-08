@@ -1,30 +1,26 @@
 name: Reusable workflow
 
-on: 
-  push:
-    branches: main
-    paths-ignore: [.github/**]
-  pull_request:
-    branches: main
-  schedule:
-    - cron : '15 6 * * 0'
-  workflow_dispatch:
+on:
+  workflow_call:
     inputs:
       who-to-greet:
-        description: 'Who to greet'
-        default: 'World'
-        required: true
+        description: 'The person to greet'
         type: string
+        required: true
+        default: World
       outputs:
-        current-time: $(date)
+        current-time:
+          description: 'The time when greeting'
+          value: ${{ jobs.reusable-job.outputs.current-time }}
           
 jobs:
   reusable-job:
     runs-on: ubuntu-latest
-
+    outputs:
+      current-time: ${{ steps.time.outputs.time }}
     steps:
-      - name: Print hello name to STDOUT
+      - name: Greet hello name to STDOUT
         run: echo Hello ${{ inputs.who-to-greet }}
-
-      - name: Get date
-        run: 
+      - name: Set Time
+        id: time
+        run: echo "time=$(date)" >> $GITUB_OUTPUT
